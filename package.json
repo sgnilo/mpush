@@ -1,0 +1,19 @@
+{
+  "name": "mpush",
+  "version": "1.0.0",
+  "description": "代码推送",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node client/index.ts --config=mpush.client.conf.js",
+    "server": "node server/index.ts"
+  },
+  "bin": {
+    "mpush": "client/index.ts",
+    "mrecv": "server/index.ts"
+  },
+  "author": "xujiangping",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^16.9.1"
+  }
+}
