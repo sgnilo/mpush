@@ -1,5 +1,5 @@
 {
-  "name": "mpush",
+  "name": "cpush",
   "version": "1.0.0",
   "description": "代码推送",
   "main": "index.js",

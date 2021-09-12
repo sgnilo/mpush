@@ -8,7 +8,7 @@ process.argv.forEach((item, index) => {
     if (index) {
         const arg = item.split('=');
         if (arg[0] === '--config') {
-            customConfig = require(path.resolve(__dirname, '..', arg[1])) || {};
+            customConfig = require(path.resolve(__dirname, '../../../', arg[1])) || {};
         }
         if (index === 1) {
             workPath = item.replace(/\/[^\/]+$/g, '');

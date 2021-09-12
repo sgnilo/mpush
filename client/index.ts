@@ -20,7 +20,7 @@ const computeFileList = fl => {
     return fl.map(file => {
         let p = defaultRemotePath;
         let remoteFile = '';
-        rules.forEach(rule => {
+        rules && rules.forEach(rule => {
             if (rule.rule && rule.rule.test(file)) {
                 p = rule.path;
             }
