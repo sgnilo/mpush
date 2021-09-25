@@ -12,7 +12,6 @@ let {watch, dir, defaultRemotePath, rules} = config;
 let fullPath = dir;
 
 if (!/^\//g.test(dir)) {
-    console.log(dir);
     fullPath = path.resolve(__dirname, dir);
 }
 

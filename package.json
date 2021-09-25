@@ -1,10 +1,10 @@
 {
   "name": "cpush",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "代码推送",
   "main": "index.js",
   "scripts": {
-    "dev": "node client/index.ts --config=mpush.client.conf.js",
+    "dev": "node client/index.ts --config=mpush.client.conf.js NODE_ENV=dev",
     "server": "node server/index.ts"
   },
   "bin": {

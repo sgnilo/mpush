@@ -24,55 +24,52 @@ const server = net.createServer();
 
 server.on('connection', socket => {
     let chunk = '';
-    let isConf = true;
-    let activeFileName = '';
-    let activeFileSize = 0;
-    let activeFileMd5 = '';
-    const parseConf = () => {
+    let isConfigPart = true;
+    let activeFile = null;
 
-        if (/^\$.+\$$/g.test(chunk)) {
-            console.log('解析出了配置', chunk);
-            chunk = chunk.replace(/\$/g, '');
-            const conf = JSON.parse(chunk);
-            const {remotePath, size, md5} = conf;
-            isConf = false;
-            activeFileName = remotePath;
-            activeFileSize = size;
-            activeFileMd5 = md5
-            chunk = '';
-            createFile(remotePath);
-        }
-    };
     socket.on('data', res => {
         try {
             const resStr = res.toString('utf8');
-            console.log(resStr.length)
-            if (/\r\n/g.test(resStr)) {
-                const data = resStr.toString('utf8').split(/\r\n/g);
-                console.log(data.map(i => i.length));
-                data.forEach(line => {
-                    if (!line) {return};
-                    if (isConf) {
-                        chunk += line;
-                        parseConf();
-                    } else {
-                        fs.writeFileSync(activeFileName, line, {flag: 'as'});
-                        if (computMd5(activeFileName) === activeFileMd5) {
-                            isConf = true;
+            if (isConfigPart) {
+                chunk += resStr;
+                if (/^\$.+\$$/g.test(chunk)) {
+                    console.log('解析出了配置', chunk);
+                    const conf = JSON.parse(chunk.replace(/\$/g, ''));
+                    const {remotePath, size, md5, taskId, localFileName} = conf;
+                    activeFile = conf;
+                    createFile(remotePath);
+                    isConfigPart = false;
+                    chunk = '';
+                    socket.write(JSON.stringify({
+                        fileName: remotePath,
+                        taskId,
+                        localFileName
+                    }));
+                }
+            } else {
+                let buffer = res;
+                /config\-push/g.test(activeFile.taskId) && (activeFile.taskId = activeFile.taskId.replace('config-push', 'content-push'));
+                if (/(\r\n)$/g.test(resStr)) {
+                    const newStr = resStr.replace(/(\r\n)$/g, '');
+                    buffer = Buffer.alloc(newStr.length, newStr);
+                    setTimeout(() => {
+                        if (computMd5(activeFile.remotePath) === activeFile.md5) {
+                            isConfigPart = true;
                             socket.write(JSON.stringify({
-                                fileName: activeFileName
+                                fileName: activeFile.remotePath,
+                                taskId: activeFile.taskId,
+                                localFileName: activeFile.localFileName,
+                                isSingleFileFinish: true
                             }));
                         }
-                    }
-                });
-            } else if (isConf){
-                chunk += resStr;
-                parseConf();
-            } else if (resStr !== '\r\n') {
-                fs.writeFileSync(activeFileName, res, {flag: 'as'});
+                    }, 0);
+                }
+                fs.writeFileSync(activeFile.remotePath, buffer, {flag: 'as'});        
             }
         } catch(err) {
-            socket.write(JSON.stringify({error: err}));
+            throw new Error(err);
+            
+            //socket.write(JSON.stringify({error: err}));
         }
     });
 });
