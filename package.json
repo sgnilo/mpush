@@ -4,6 +4,7 @@
   "description": "代码推送",
   "main": "index.js",
   "scripts": {
+    "start": "node ./index.ts",
     "dev": "node client/index.ts --config=mpush.client.conf.js NODE_ENV=dev",
     "server": "node server/index.ts"
   },

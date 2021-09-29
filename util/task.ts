@@ -50,7 +50,7 @@ class TaskList {
     push(task, needAssign = false) {
         needAssign && this.assign(task);
         task.whileDone(taskStatus => {
-            taskStatus === 'finished' && this.runTask();
+            taskStatus === 'finished' && process.nextTick(this.runTask.bind(this));
         });
         this.list.push(task);
         !this.executing && this.runTask();
@@ -67,7 +67,7 @@ class TaskList {
             const task = this.list.shift();
             this.activeTask = task;
         }
-        (this.activeTask && this.activeTask.getTaskStatus() === 'inited') ? this.activeTask.do() : this.finish()
+        (this.activeTask && this.activeTask.getTaskStatus() === 'inited') ? this.activeTask.do() : this.finish();
     }
 
     finish() {
