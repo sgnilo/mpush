@@ -5,11 +5,11 @@ module.exports = {
     dir: '../test1',
     rootPath: '../',
     watch: true,
-    defaultRemotePath: path.resolve(__dirname, '../test'),
+    defaultRemotePath: '/Users/jiangpingxu/mpush/test',
     rules: [
         {
             rule: /5/,
-            path: path.resolve(__dirname, '../test/deep')
+            path: path.resolve(__dirname, './test/deep')
         }
     ],
 }

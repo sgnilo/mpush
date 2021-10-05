@@ -1,4 +1,4 @@
-const {request} = require('./request.ts');
+const {request} = require('../util/request.ts');
 const event = require('../util/event.ts');
 const {computMd5} = require('../util/md5.ts');
 const fs = require('fs');
@@ -77,7 +77,7 @@ const push = (fileList, callBack) => {
             delay(fileName);
             if (isSingleFileFinish) {
                 resultList.push(fileName || error);
-                console.log(localFileName, '\t', '=>', '\t', fileName, '\t', taskId);
+                console.log(localFileName, '\t', '=>', '\t', fileName);
             }
             if (resultList.length === fileList.length) {
                 event.off('update', update);

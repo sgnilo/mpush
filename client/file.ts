@@ -2,6 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const event = require('../util/event.ts');
 
+/**
+ * 
+ * @param dir 
+ * @returns 
+ */
 const getFileList = dir => {
     const fileList = [];
     const reduceUntilFile = p => {
@@ -16,6 +21,10 @@ const getFileList = dir => {
     return fileList;
 };
 
+/**
+ * 
+ * @param dir 
+ */
 const setDirWatcher = dir => {
     let delay = null;
     let changeFileList = [];

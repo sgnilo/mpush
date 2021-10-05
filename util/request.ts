@@ -8,13 +8,9 @@ const request = receiver => {
 
         socket.setEncoding('utf-8');
 
-        socket.on('connect', () => {
-            resolve(socket);
-        });
+        socket.on('connect', () => resolve(socket));
 
-        socket.on('error', err => {
-            reject(err);
-        });
+        socket.on('error', err => reject(err));
     });
     
 };
