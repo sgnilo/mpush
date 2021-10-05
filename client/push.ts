@@ -1,9 +1,9 @@
+const fs = require('fs');
+const path = require('path');
+const config = require('./config');
 const {request} = require('../util/request.ts');
 const event = require('../util/event.ts');
 const {computMd5} = require('../util/md5.ts');
-const fs = require('fs');
-const config = require('./config');
-const path = require('path');
 const {Task, TaskList} = require('../util/task.ts');
 
 const {chunkSize, timeout} = config;

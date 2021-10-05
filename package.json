@@ -9,8 +9,8 @@
     "server": "node server/index.ts"
   },
   "bin": {
-    "mpush": "client/index.ts",
-    "mrecv": "server/index.ts"
+    "cs": "client/index.ts",
+    "cl": "server/index.ts"
   },
   "author": "xujiangping",
   "license": "ISC",

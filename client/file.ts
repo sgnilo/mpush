@@ -4,43 +4,38 @@ const event = require('../util/event.ts');
 
 /**
  * 
- * @param dir 
- * @returns 
+ * @description 获取指定目录中的所有文件的路径
+ * @param {string} dir 目录
+ * @returns {array} 该目录中所有的文件
  */
 const getFileList = dir => {
     const fileList = [];
-    const reduceUntilFile = p => {
-        if (!fs.statSync(p).isDirectory()) {
-            fileList.push(p);
-        } else {
-            fs.readdirSync(p).forEach(file => reduceUntilFile(path.resolve(p, file)));
-        }
-        
-    };
-    reduceUntilFile(dir);
+    (function reduceUntilFile(p){
+        !fs.statSync(p).isDirectory()
+        ? fileList.push(p)
+        : fs.readdirSync(p).forEach(file => reduceUntilFile(path.resolve(p, file)));  
+    })(dir);
     return fileList;
 };
 
 /**
  * 
- * @param dir 
+ * @description 给指定的目录或文件设置watcher
+ * @param {string} dir 文件名或目录
+ * @param {number} delay 延时，用于限制频繁的改动，默认3000ms
  */
-const setDirWatcher = dir => {
-    let delay = null;
+const setDirWatcher = (dir, delay) => {
+    let delayHandler = null;
     let changeFileList = [];
 
-    const resetDelay = () => {
-        clearTimeout(delay);
-        delay = null;
-    };
     fs.watch(dir, {recursive: true}, (e, fileName) => {
         const fullName = fs.statSync(dir).isDirectory() ? path.resolve(dir, fileName) : dir;
         !changeFileList.includes(fullName) && changeFileList.push(fullName);
-        resetDelay();
-        delay = setTimeout(() => {
+        clearTimeout(delayHandler);
+        delayHandler = setTimeout(() => {
             event.fire('fileChange', changeFileList);
             changeFileList = [];
-        }, 3000);
+        }, delay || 3000);
     });
 };
 

@@ -7,7 +7,7 @@ const event = require('../util/event.ts');
 const path = require('path');
 const fs = require('fs');
 
-let {watch, dir, defaultRemotePath, rules} = config;
+let {watch, dir, remotePath, rules} = config;
 
 let fullPath = dir;
 
@@ -17,7 +17,7 @@ if (!/^\//g.test(dir)) {
 
 const computeFileList = fl => {
     return fl.map(file => {
-        let p = defaultRemotePath;
+        let p = remotePath;
         let remoteFile = '';
         rules && rules.forEach(rule => {
             if (rule.rule && rule.rule.test(file)) {
