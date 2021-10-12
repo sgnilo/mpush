@@ -1,15 +1,51 @@
+interface ParserConstructorParam {
+    configMatchPattern?: RegExp;
+    configSplitPattern?: RegExp;
+    contentFinishPattern?: RegExp;
+}
+
+interface ActiveItem {
+    remotePath: string;
+    size?: number;
+    md5?: string;
+    taskId?: string;
+    localFileName?: string;
+}
+
+interface ParseCallBackParam {
+    type: string;
+    config: ActiveItem;
+    content: Buffer;
+}
+
+type BeforeParseCallBack = (chunk: Buffer) => void;
+type parseConfigFinishCallBack = (activeItem: ActiveItem) => void;
+type parseContentFinishCallBack = (activeItem: ActiveItem) => void;
+type roundParseFinishCallBack = (param: ParseCallBackParam) => void;
+
+interface CallBackSet {
+    beforeParse: BeforeParseCallBack;
+    parseConfigFinish: parseConfigFinishCallBack;
+    parseContentFinish: parseContentFinishCallBack;
+    roundParseFinish: roundParseFinishCallBack;
+}
+
+type GetCallBack<T> = T extends keyof CallBackSet ? CallBackSet[T] : never;
+
+type AnyCallBackName = keyof CallBackSet;
+
 class Parser {
-    config;
-    isConfigPart;
-    activeItem;
-    configMatchPattern;
-    configSplitPattern;
-    contentFinishPattern;
-    beforeParse;
-    parseConfigFinish;
-    parseContentFinish;
-    roundParseFinish;
-    constructor(option?) {
+    config: string;
+    isConfigPart: boolean;
+    activeItem: ActiveItem;
+    configMatchPattern: RegExp;
+    configSplitPattern: RegExp;
+    contentFinishPattern: RegExp;
+    beforeParse?: BeforeParseCallBack;
+    parseConfigFinish?: parseConfigFinishCallBack;
+    parseContentFinish?: parseContentFinishCallBack;
+    roundParseFinish?: roundParseFinishCallBack;
+    constructor(option?: ParserConstructorParam) {
         const {configMatchPattern, configSplitPattern, contentFinishPattern} = option || {};
         this.config = '';
         this.isConfigPart = true;
@@ -24,7 +60,8 @@ class Parser {
      * @param {'beforeParse'|'parseConfigFinish'|'parseContentFinish'|'roundParseFinish'} eventName 回调调用时机
      * @param {Function} callBack 回调函数
      */
-    on(eventName, callBack) {
+    on(eventName: AnyCallBackName, callBack: GetCallBack<AnyCallBackName>) {
+        // @ts-ignore
         this[eventName] = callBack;
     }
 
@@ -33,7 +70,7 @@ class Parser {
      * @description 解析config格式的buffer
      * @param {Buffer} chunk 需要进行解析的buffer
      */
-    parseConfig(chunk) {
+    parseConfig(chunk: Buffer) {
         this.config += chunk.toString('utf-8');
         if (this.configMatchPattern.test(this.config)) {
             this.activeItem = JSON.parse(this.config.replace(/\$/g, ''));
@@ -58,7 +95,7 @@ class Parser {
      * @description 解析content格式的buffer
      * @param {Buffer} chunk 需要进行解析的buffer
      */
-    parseContent(chunk) {
+    parseContent(chunk: Buffer) {
         let buffer = chunk;
         this.remakeTaskId();
         let chunkText = chunk.toString('utf-8');
@@ -78,7 +115,7 @@ class Parser {
      * @description 解析整个buffer
      * @param chunk 需要进行解析的buffer
      */
-    parse(chunk) {
+    parse(chunk: Buffer) {
         this.beforeParse && this.beforeParse(chunk);
         this.isConfigPart ? this.parseConfig(chunk) : this.parseContent(chunk);
     }

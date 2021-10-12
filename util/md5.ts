@@ -1,7 +1,7 @@
 import * as crypto from 'crypto';
 import * as fs from 'fs';
 
-const computMd5 = filePath => {
+const computMd5 = (filePath: string) => {
     let md5Str = '';
     let content = Buffer.alloc(5000);
     let current = 0;

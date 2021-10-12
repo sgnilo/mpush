@@ -1,3 +1,4 @@
+// @ts-nocheck
 function seeCallStack() {
     throw new Error();
 };
@@ -30,3 +31,4 @@ while (i--) {
         }
     }))
 }
+// @ts-check
