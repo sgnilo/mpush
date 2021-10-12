@@ -20,7 +20,7 @@ const off = (eventName, fn) => {
     }
 };
 
-module.exports = {
+export default {
     on,
     fire,
     off

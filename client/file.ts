@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const event = require('../util/event.ts');
+import event from '../util/event';
 
 /**
  * 
@@ -24,7 +24,7 @@ const getFileList = dir => {
  * @param {string} dir 文件名或目录
  * @param {number} delay 延时，用于限制频繁的改动，默认3000ms
  */
-const setDirWatcher = (dir, delay) => {
+const setDirWatcher = (dir, delay?) => {
     let delayHandler = null;
     let changeFileList = [];
 
@@ -39,7 +39,7 @@ const setDirWatcher = (dir, delay) => {
     });
 };
 
-module.exports = {
+export {
     getFileList,
     setDirWatcher
 }

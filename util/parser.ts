@@ -9,7 +9,7 @@ class Parser {
     parseConfigFinish;
     parseContentFinish;
     roundParseFinish;
-    constructor(option) {
+    constructor(option?) {
         const {configMatchPattern, configSplitPattern, contentFinishPattern} = option || {};
         this.config = '';
         this.isConfigPart = true;
@@ -84,6 +84,6 @@ class Parser {
     }
 }
 
-module.exports = {
+export {
     Parser
 }

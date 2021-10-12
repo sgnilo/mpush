@@ -1,13 +1,12 @@
 #!/usr/bin/env node
-
-const {getFileList, setDirWatcher} = require('./file.ts');
-const {push} = require('./push.ts');
+import {getFileList, setDirWatcher} from './file';
+import {push} from './push';
+import event from '../util/event';
 const config = require('./config');
-const event = require('../util/event.ts');
 const path = require('path');
 const fs = require('fs');
 
-let {watch, dir, remotePath, rules} = config;
+let {watch, dir, remotePath, rules} = config as any;
 
 let fullPath = dir;
 

@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "lib": ["ES6"],
+        "noImplicitAny": false,
+        "removeComments": false,
+        "preserveConstEnums": true,
+        "sourceMap": true
+    },
+    "include": [
+        "./*.ts"
+    ]
+}

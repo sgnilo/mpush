@@ -15,6 +15,6 @@ const request = receiver => {
     
 };
 
-module.exports = {
+export {
     request
 }

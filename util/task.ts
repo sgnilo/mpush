@@ -81,7 +81,7 @@ class TaskList {
     }
 };
 
-module.exports = {
+export {
     Task,
     TaskList
 }

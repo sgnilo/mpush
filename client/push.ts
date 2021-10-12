@@ -1,10 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 const config = require('./config');
-const {request} = require('../util/request.ts');
-const event = require('../util/event.ts');
-const {computMd5} = require('../util/md5.ts');
-const {Task, TaskList} = require('../util/task.ts');
+import {request} from'../util/request';
+import event from '../util/event';
+import {computMd5} from '../util/md5';
+import {Task, TaskList} from '../util/task';
 
 const {chunkSize, timeout} = config;
 const taskList = new TaskList();
@@ -51,7 +51,7 @@ const push = (fileList, callBack) => {
 
     event.on('update', update);
 
-    request(config.receiver).then(context => {
+    request(config.receiver).then((context: any) => {
 
         let colseHandle = null;
     
@@ -86,7 +86,8 @@ const push = (fileList, callBack) => {
                 callBack && callBack();
             }
             if (error) {
-                throw new Error(error);
+                console.log(error);
+                throw error;
             } else {
                 event.fire(taskId, data);
             }
@@ -125,6 +126,6 @@ const push = (fileList, callBack) => {
     });    
 };
 
-module.exports = {
+export {
     push
 };

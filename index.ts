@@ -2,8 +2,7 @@ function seeCallStack() {
     throw new Error();
 };
 
-
-const {Task, TaskList} = require('./util/task.ts');
+import {Task, TaskList} from './util/task';
 
 let i = 10;
 

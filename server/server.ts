@@ -2,9 +2,10 @@
 
 const net = require('net');
 const fs = require('fs');
-const {computMd5} = require('../util/md5.ts');
-const {Parser} = require('../util/parser.ts');
-const config = require('./config');
+import {computMd5} from '../util/md5';
+import {Parser} from '../util/parser';
+import config from './config';
+
 
 /**
  *
@@ -12,6 +13,7 @@ const config = require('./config');
  * @param {string} filePath 文件路径
  */
 const createFile = (filePath) => {
+    console.log(filePath);
     const pathList = filePath.split('/');
     pathList.reduce((path, dir) => {
         path && !fs.existsSync(path) && fs.mkdirSync(path);
@@ -102,7 +104,7 @@ server.on('connection', socket => {
             parser.parse(res);
         } catch(err) {
             socket.write(JSON.stringify({error: err}));
-            throw new Error(err);
+            throw err;
         }
     });
 });

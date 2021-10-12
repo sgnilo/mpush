@@ -4,7 +4,7 @@ module.exports = {
     receiver: '0.0.0.0:2580',
     dir: '../test1',
     watch: true,
-    remotePath: '/Users/jiangpingxu/mpush/test',
+    remotePath: '/Users/xujiangpingx/mpush/test',
     rules: [
         {
             rule: /5/,
