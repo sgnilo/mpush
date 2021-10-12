@@ -1,6 +1,12 @@
-const eventMap = {};
 
-type CallBack = (data: unknown) => void;
+type CallBack = (data: any) => void;
+
+interface EventMap {
+    [k: string]: CallBack[];
+};
+
+const eventMap: EventMap = {};
+
 
 const on = (eventName: string, fn: CallBack) => {
     if (!eventMap[eventName]) {
@@ -9,7 +15,7 @@ const on = (eventName: string, fn: CallBack) => {
     eventMap[eventName].push(fn);
 };
 
-const fire = (eventName: string, data: unknown) => {
+const fire = (eventName: string, data: any) => {
     eventMap[eventName] && eventMap[eventName].forEach(fn => {
         fn && fn(data);
     });
@@ -17,7 +23,7 @@ const fire = (eventName: string, data: unknown) => {
 
 const off = (eventName: string, fn: CallBack) => {
     if (eventMap[eventName]) {
-        const current = eventMap[eventName].findIndex(callBack => fn === callBack);
+        const current = eventMap[eventName].findIndex((callBack: CallBack) => fn === callBack);
         current >= 0 && eventMap[eventName].splice(current, 1);
     }
 };

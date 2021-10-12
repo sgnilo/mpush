@@ -1,6 +1,6 @@
 const net = require('net');
 
-const request = receiver => {
+const request = (receiver: string) => {
 
     return new Promise((resolve, reject) => {
         const remote = receiver.replace(/http(s.)\/\//g, '').split(':');
@@ -10,7 +10,7 @@ const request = receiver => {
 
         socket.on('connect', () => resolve(socket));
 
-        socket.on('error', err => reject(err));
+        socket.on('error', (err: Error) => reject(err));
     });
     
 };

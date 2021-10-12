@@ -30,7 +30,6 @@ interface CallBackSet {
     roundParseFinish: roundParseFinishCallBack;
 }
 
-type GetCallBack<T> = T extends keyof CallBackSet ? CallBackSet[T] : never;
 
 type AnyCallBackName = keyof CallBackSet;
 
@@ -60,7 +59,7 @@ class Parser {
      * @param {'beforeParse'|'parseConfigFinish'|'parseContentFinish'|'roundParseFinish'} eventName 回调调用时机
      * @param {Function} callBack 回调函数
      */
-    on(eventName: AnyCallBackName, callBack: GetCallBack<AnyCallBackName>) {
+    on(eventName: AnyCallBackName, callBack: CallBackSet[AnyCallBackName]) {
         // @ts-ignore
         this[eventName] = callBack;
     }
@@ -122,5 +121,7 @@ class Parser {
 }
 
 export {
-    Parser
+    Parser,
+    ActiveItem,
+    ParseCallBackParam
 }

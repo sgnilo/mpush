@@ -2,8 +2,9 @@
 
 const net = require('net');
 const fs = require('fs');
+import { Socket } from 'net';
 import {computMd5} from '../util/md5';
-import {Parser} from '../util/parser';
+import {Parser, ActiveItem, ParseCallBackParam} from '../util/parser';
 import config from './config';
 
 
@@ -12,8 +13,7 @@ import config from './config';
  * @description 根据路径创建文件，若路径不存在则递归创建父级目录
  * @param {string} filePath 文件路径
  */
-const createFile = (filePath) => {
-    console.log(filePath);
+const createFile = (filePath: string) => {
     const pathList = filePath.split('/');
     pathList.reduce((path, dir) => {
         path && !fs.existsSync(path) && fs.mkdirSync(path);
@@ -22,25 +22,6 @@ const createFile = (filePath) => {
     fs.writeFileSync(filePath, '', {flag: 'w'});
 };
 
-/**
- * 
- * @description 更新任务类型
- * @param {string} taskId 任务类型
- * @returns {string} 新的任务类型
- */
-const remakeTaskId = (taskId) => {
-    return /config\-push/g.test(taskId) ? taskId.replace('config-push', 'content-push') : taskId;
-};
-
-/**
- * 
- * @param {string} originStr 原始字符串
- * @param {RegExp} reg 正则表达式
- * @returns {string|boolean} 处理后的字符串或false
- */
-const getMatchStr = (originStr, reg) => {
-    return reg.test(originStr) ? originStr.replace(reg, '') : false;
-};
 
 /**
  * @description 创建一个服务器
@@ -50,7 +31,7 @@ const server = net.createServer();
 /**
  * @description 当一个新连接被建立后的事件处理
  */
-server.on('connection', socket => {
+server.on('connection', (socket: Socket) => {
     
     /**
      * @description 创建一个解析器解析流内容
@@ -62,7 +43,7 @@ server.on('connection', socket => {
      * @description 当文件信息解析完成时调用，给请求方响应
      * @param {Object} activeFile 此时正处于处理中的文件信息
      */
-    const parseConfigFinish = activeFile => {
+    const parseConfigFinish = (activeFile: ActiveItem) => {
         createFile(activeFile.remotePath);
         socket.write(JSON.stringify({
             ...activeFile,
@@ -75,7 +56,7 @@ server.on('connection', socket => {
      * @description 当文件内容解析处理完成时异步调用，给请求方响应
      * @param {object} activeFile 此时正处于处理中的文件信息
      */
-    const parseContentFinish = activeFile => {
+    const parseContentFinish = (activeFile: ActiveItem) => {
         if (computMd5(activeFile.remotePath) === activeFile.md5) {
             socket.write(JSON.stringify({
                 ...activeFile,
@@ -90,7 +71,7 @@ server.on('connection', socket => {
      * @description 在文件内容解析处理完成时同步调用，将处理后的buffer写入文件中
      * @param {object} data 包含触发此回调的类型、此round的buffer、处理中的文件信息
      */
-    const roundParseFinish = data => {
+    const roundParseFinish = (data: ParseCallBackParam) => {
         const {type, config, content} = data;
         type === 'content' && config && content && fs.writeFileSync(config.remotePath, content, {flag: 'as'});
     };
@@ -99,7 +80,7 @@ server.on('connection', socket => {
     parser.on('parseContentFinish', parseContentFinish);
     parser.on('roundParseFinish', roundParseFinish);
 
-    socket.on('data', res => {
+    socket.on('data', (res: Buffer) => {
         try {
             parser.parse(res);
         } catch(err) {

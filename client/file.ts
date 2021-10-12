@@ -1,6 +1,6 @@
+import event from '../util/event';
 const fs = require('fs');
 const path = require('path');
-import event from '../util/event';
 
 /**
  * 
@@ -8,12 +8,12 @@ import event from '../util/event';
  * @param {string} dir 目录
  * @returns {array} 该目录中所有的文件
  */
-const getFileList = dir => {
+const getFileList = (dir: string) => {
     const fileList = [];
-    (function reduceUntilFile(p){
+    (function reduceUntilFile(p) {
         !fs.statSync(p).isDirectory()
         ? fileList.push(p)
-        : fs.readdirSync(p).forEach(file => reduceUntilFile(path.resolve(p, file)));  
+        : fs.readdirSync(p).forEach((file: string) => reduceUntilFile(path.resolve(p, file)));  
     })(dir);
     return fileList;
 };
@@ -24,11 +24,11 @@ const getFileList = dir => {
  * @param {string} dir 文件名或目录
  * @param {number} delay 延时，用于限制频繁的改动，默认3000ms
  */
-const setDirWatcher = (dir, delay?) => {
-    let delayHandler = null;
-    let changeFileList = [];
+const setDirWatcher = (dir: string, delay?: number) => {
+    let delayHandler: NodeJS.Timeout = null;
+    let changeFileList: string[] = [];
 
-    fs.watch(dir, {recursive: true}, (e, fileName) => {
+    fs.watch(dir, {recursive: true}, (e: string, fileName: string) => {
         const fullName = fs.statSync(dir).isDirectory() ? path.resolve(dir, fileName) : dir;
         !changeFileList.includes(fullName) && changeFileList.push(fullName);
         clearTimeout(delayHandler);

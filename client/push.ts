@@ -1,12 +1,26 @@
 const fs = require('fs');
-const path = require('path');
 const config = require('./config');
 import {request} from'../util/request';
 import event from '../util/event';
 import {computMd5} from '../util/md5';
 import {Task, TaskList} from '../util/task';
 
-const {chunkSize, timeout} = config;
+interface Rule {
+    test: RegExp;
+    path: string;
+};
+
+interface Config {
+    watch: boolean;
+    dir: string;
+    remotePath: string;
+    rules: Rule[];
+    chunkSize: number;
+    timeout: number;
+};
+
+const {chunkSize, timeout} = config as Config;
+
 const taskList = new TaskList();
 
 const syncFileContent = (filePath, fileSize, context) => {
