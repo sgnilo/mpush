@@ -7,6 +7,7 @@ import {ClientConfig} from '../types/index';
 const config = require('./config');
 const path = require('path');
 const fs = require('fs');
+const process = require('process');
 
 
 let {watch, dir, remotePath, rules} = config as ClientConfig;
@@ -17,6 +18,7 @@ let absolutePath = dir;
 let isPushing = false;
 
 if (!/^\//g.test(dir)) {
+    console.log(__dirname, dir, config, process.version);
     absolutePath = path.resolve(__dirname, dir);
 }
 

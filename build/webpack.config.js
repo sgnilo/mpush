@@ -1,4 +1,19 @@
 const path = require('path');
+const {RawSource}  = require('webpack-sources');
+
+class InsertBinCommentPlugin {
+    apply(compiler) {
+        compiler.hooks.emit.tapAsync('insertBinCommentPlugin', (compilation, callback) => {
+            compilation.chunks.forEach(chunk => {
+                const file = chunk.files[0];
+                const content = compilation.assets[file].source();
+                console.log('处理了');
+                compilation.assets[file] = new RawSource(`#!/usr/bin/env node\n${content}`);
+            });
+            callback();
+        });
+    }
+};
 
 module.exports = {
     target: 'node',
@@ -17,5 +32,8 @@ module.exports = {
     },
     resolve: {
         extensions: ['.ts', '.js']
-    }
+    },
+    plugins: [
+        new InsertBinCommentPlugin()
+    ]
 }
