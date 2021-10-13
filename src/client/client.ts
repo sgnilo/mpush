@@ -1,25 +1,15 @@
 #!/usr/bin/env node
 
 import {getFileList, setDirWatcher} from './file';
-import {push} from './push';
+import {Push} from './push';
 import event from '../util/event';
+import {ClientConfig} from '../types/index';
 const config = require('./config');
 const path = require('path');
 const fs = require('fs');
 
-interface Rule {
-    test: RegExp;
-    path: string;
-};
 
-interface Config {
-    watch: boolean;
-    dir: string;
-    remotePath: string;
-    rules: Rule[];
-}
-
-let {watch, dir, remotePath, rules} = config as Config;
+let {watch, dir, remotePath, rules} = config as ClientConfig;
 
 let absolutePath = dir;
 
@@ -52,12 +42,14 @@ const fileList = computeFileList(getFileList(absolutePath));
 
 isPushing = true;
 
+const finishCallBack = () => isPushing = false;
+
 if (watch) {
     setDirWatcher(absolutePath);
     event.on('fileChange', (fileList: string[]) => {
         const newList = computeFileList(fileList);
-        isPushing ? event.fire('update', newList) : push(newList, () => isPushing = false);
+        isPushing ? event.fire('update', newList) : new Push(newList, finishCallBack);
     });
 }
 
-push(fileList, () => isPushing = false);
+new Push(fileList, finishCallBack);

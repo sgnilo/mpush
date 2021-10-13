@@ -47,5 +47,5 @@ npm install cpush --save
 ### rule
 字段 | 类型 | 默认值 | 是否必选 | 说明
 --- | --- | --- | --- | --- | ---
-rule | RegExp | - | 是 | 用于匹配的规则
-path | string | - | 是 | 基于规则匹配出的文件的新的目的目录
+rule | RegExp | - | 是 | 用于匹配的规则 |
+path | string | - | 是 | 基于规则匹配出的文件的新的目的目录 |

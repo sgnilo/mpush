@@ -2,11 +2,10 @@
 
 const net = require('net');
 const fs = require('fs');
-import { Socket } from 'net';
 import {computMd5} from '../util/md5';
-import {Parser, ActiveItem, ParseCallBackParam} from '../util/parser';
+import {Parser} from '../util/parser';
 import config from './config';
-
+import {ActiveItem, ParseCallBackParam, Socket} from '../types/index';
 
 /**
  *

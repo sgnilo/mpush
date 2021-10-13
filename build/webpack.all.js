@@ -3,7 +3,7 @@ const config = require('./webpack.config');
 module.exports = {
     ...config,
     entry: {
-        client: './client/client.ts',
-        server: './server/server.ts'
+        client: './src/client/client.ts',
+        server: './src/server/server.ts'
     }
 }

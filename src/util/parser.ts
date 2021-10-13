@@ -1,37 +1,13 @@
-interface ParserConstructorParam {
-    configMatchPattern?: RegExp;
-    configSplitPattern?: RegExp;
-    contentFinishPattern?: RegExp;
-}
-
-interface ActiveItem {
-    remotePath: string;
-    size?: number;
-    md5?: string;
-    taskId?: string;
-    localFileName?: string;
-}
-
-interface ParseCallBackParam {
-    type: string;
-    config: ActiveItem;
-    content: Buffer;
-}
-
-type BeforeParseCallBack = (chunk: Buffer) => void;
-type parseConfigFinishCallBack = (activeItem: ActiveItem) => void;
-type parseContentFinishCallBack = (activeItem: ActiveItem) => void;
-type roundParseFinishCallBack = (param: ParseCallBackParam) => void;
-
-interface CallBackSet {
-    beforeParse: BeforeParseCallBack;
-    parseConfigFinish: parseConfigFinishCallBack;
-    parseContentFinish: parseContentFinishCallBack;
-    roundParseFinish: roundParseFinishCallBack;
-}
-
-
-type AnyCallBackName = keyof CallBackSet;
+import {
+    ActiveItem,
+    BeforeParseCallBack,
+    parseConfigFinishCallBack,
+    parseContentFinishCallBack,
+    roundParseFinishCallBack,
+    ParserConstructorParam,
+    AnyCallBackName,
+    CallBackSet
+} from '../types/index';
 
 class Parser {
     config: string;
@@ -121,7 +97,5 @@ class Parser {
 }
 
 export {
-    Parser,
-    ActiveItem,
-    ParseCallBackParam
+    Parser
 }

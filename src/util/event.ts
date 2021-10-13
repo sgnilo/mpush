@@ -1,14 +1,9 @@
-
-type CallBack = (data: any) => void;
-
-interface EventMap {
-    [k: string]: CallBack[];
-};
+import {EventCallBack, EventMap} from '../types/index';
 
 const eventMap: EventMap = {};
 
 
-const on = (eventName: string, fn: CallBack) => {
+const on = (eventName: string, fn: EventCallBack) => {
     if (!eventMap[eventName]) {
         eventMap[eventName] = [];
     }
@@ -21,9 +16,9 @@ const fire = (eventName: string, data: any) => {
     });
 };
 
-const off = (eventName: string, fn: CallBack) => {
+const off = (eventName: string, fn: EventCallBack) => {
     if (eventMap[eventName]) {
-        const current = eventMap[eventName].findIndex((callBack: CallBack) => fn === callBack);
+        const current = eventMap[eventName].findIndex((callBack: EventCallBack) => fn === callBack);
         current >= 0 && eventMap[eventName].splice(current, 1);
     }
 };

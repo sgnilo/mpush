@@ -1,12 +1,4 @@
-type Done = (taskStatus?: string) => void;
-type Execute = (done: Done) => void;
-
-interface TaskConstructorParam {
-    id: string;
-    execute: Execute;
-}
-
-
+import {Done, Execute, TaskConstructorParam} from '../types/index';
 class Task {
     execute: Execute;
     done: Done;
