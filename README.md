@@ -40,8 +40,8 @@ npm install cpush --save
 | :--- | :---: | :---: | :---: | :--- |
 | receiver | string | - | 是 | 接收端的ip及端口号 |
 | dir | string | - | 是 | 要同步的文件名或目录 |
-| watch | boolean | false | 否 | 是否需要监听文件或目录内容的改动并持续性的同步 |
 | remotePath | string | - | 是 | 接收端同步的目的文件/目录路径 |
+| watch | boolean | false | 否 | 是否需要监听文件或目录内容的改动并持续性的同步 |
 | rules | rule[] | - | 否 | 规则组，可设置多组规则来区分文件，并同步到不同的目的目录 |
 
 ### rule
