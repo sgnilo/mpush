@@ -12,6 +12,7 @@ interface ClientConfig {
     rules: Rule[];
     chunkSize: number;
     timeout: number;
+    receiver: string;
 };
 
 type Done = (taskStatus?: string) => void;

@@ -1,5 +1,5 @@
 const fs = require('fs');
-const config = require('./config');
+import config from './config';
 import {request} from'../util/request';
 import event from '../util/event';
 import {computMd5} from '../util/md5';
@@ -7,7 +7,7 @@ import {Task, TaskList} from '../util/task';
 import {ClientConfig, Done, ResData, File, CommonCallBack, Socket} from '../types/index';
 
 
-const {chunkSize, timeout} = config as ClientConfig;
+const {chunkSize, timeout, receiver} = config as ClientConfig;
 
 const setTaskEvent = (taskId: string, done: Done) => {
     const netCallBack = (e: ResData) => {
@@ -31,11 +31,13 @@ class Push {
         this.resultList = [];
         this.taskList = new TaskList();
         event.on('update', this.update.bind(this));
-        request(config.receiver).then((context: Socket) => {
-            this.context = context;
-            context.on('data', this.response.bind(this));
-            this.sync();
-        });
+        request(receiver).then(this.onConnect.bind(this));
+    }
+
+    onConnect(context: Socket) {
+        this.context = context;
+        this.context.on('data', this.response.bind(this));
+        this.sync();
     }
 
     update(newList: File[]) {
@@ -62,8 +64,7 @@ class Push {
         this.delay();
         let current = 0;
         while (current < this.fileList.length) {
-            const file = this.fileList[current];
-            this.syncSingleFile(file);
+            this.syncSingleFile(this.fileList[current]);
             current++;
         }
     }

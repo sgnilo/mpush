@@ -7,7 +7,6 @@ class InsertBinCommentPlugin {
             compilation.chunks.forEach(chunk => {
                 const file = chunk.files[0];
                 const content = compilation.assets[file].source();
-                console.log('处理了');
                 compilation.assets[file] = new RawSource(`#!/usr/bin/env node\n${content}`);
             });
             callback();

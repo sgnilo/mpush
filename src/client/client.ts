@@ -4,7 +4,7 @@ import {getFileList, setDirWatcher} from './file';
 import {Push} from './push';
 import event from '../util/event';
 import {ClientConfig} from '../types/index';
-const config = require('./config');
+import config from './config';
 const path = require('path');
 const fs = require('fs');
 const process = require('process');
@@ -18,7 +18,6 @@ let absolutePath = dir;
 let isPushing = false;
 
 if (!/^\//g.test(dir)) {
-    console.log(__dirname, dir, config, process.version);
     absolutePath = path.resolve(__dirname, dir);
 }
 

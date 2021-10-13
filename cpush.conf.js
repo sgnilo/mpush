@@ -4,7 +4,7 @@ module.exports = {
     receiver: '0.0.0.0:2580',
     dir: '../test1',
     watch: true,
-    remotePath: '/Users/xujiangping/cpush/test',
+    remotePath: '/Users/jiangpingxu/cpush/test',
     rules: [
         {
             test: /5/,
