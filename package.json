@@ -9,7 +9,8 @@
     "server": "webpack --config=./build/webpack.server.js && node ./dist/server.js",
     "build": "webpack --config=./build/webpack.all.js",
     "build:client": "webpack --config=./build/webpack.client.js",
-    "build:server": "webpack --config=./build/webpack.server.js"
+    "build:server": "webpack --config=./build/webpack.server.js",
+    "test": "jest"
   },
   "bin": {
     "cs": "dist/client.js",
@@ -18,8 +19,11 @@
   "author": "xujiangping",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^27.0.2",
     "@types/node": "^16.9.1",
     "crypto-browserify": "^3.12.0",
+    "jest": "^27.2.5",
+    "ts-jest": "^27.0.5",
     "ts-loader": "^9.2.6",
     "typescript": "^4.4.3",
     "webpack": "^5.58.1",

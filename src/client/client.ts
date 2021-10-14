@@ -7,7 +7,6 @@ import {ClientConfig} from '../types/index';
 import config from './config';
 const path = require('path');
 const fs = require('fs');
-const process = require('process');
 
 
 let {watch, dir, remotePath, rules} = config as ClientConfig;
