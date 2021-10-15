@@ -15,6 +15,8 @@ jest.mock('fs', () => ({
     readdirSync: jest.fn((dir) => ['2.js', '3.js'])
 }));
 
+jest.useFakeTimers();
+
 const fs = require('fs');
 
 
@@ -27,9 +29,16 @@ describe('Test File Methods', () => {
         expect(fileList.includes('/1/3.js')).toBeTruthy();
     });
 
-    it('test setDirWatcher', () => {
+    it('test setDirWatcher with dir', () => {
 
         setDirWatcher(testPath, 0);
+        expect(fs.watch).toHaveBeenCalled();
+        jest.runAllTimers();
+    });
+
+    it('test setDirWatcher with file', () => {
+
+        setDirWatcher('/1/2.js', 0);
         expect(fs.watch).toHaveBeenCalled();
         jest.runAllTimers();
     });
