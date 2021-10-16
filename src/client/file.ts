@@ -3,7 +3,6 @@ const fs = require('fs');
 const path = require('path');
 
 /**
- * 
  * @description 获取指定目录中的所有文件的路径
  * @param {string} dir 目录
  * @returns {array} 该目录中所有的文件
@@ -19,7 +18,6 @@ const getFileList = (dir: string) => {
 };
 
 /**
- * 
  * @description 给指定的目录或文件设置watcher
  * @param {string} dir 文件名或目录
  * @param {number} delay 延时，用于限制频繁的改动，默认3000ms

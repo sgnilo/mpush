@@ -10,7 +10,6 @@ import {ClientConfig, Done, ResData, File, CommonCallBack, Socket} from '../type
 const {chunkSize, timeout, receiver} = config as ClientConfig;
 
 /**
- * 
  * @description 在event中订阅该任务完成时的回调，并在完成时注销订阅
  * @param taskId 任务名
  * @param done 用于结束的回调，在所有都执行完毕时主动调用
@@ -41,7 +40,6 @@ class Push {
     }
 
     /**
-     * 
      * @description 创建连接完成后绑定接受服务端响应的回调，并开始执行同步
      * @param context 连接的socket
      */
@@ -52,7 +50,6 @@ class Push {
     }
 
     /**
-     * 
      * @description 向文件列表合并更新新的文件列表
      * @param newList 新的变更的文件列表
      */
@@ -63,7 +60,6 @@ class Push {
     }
 
     /**
-     * 
      * @description 一个timeout函数，当长时间无响应或无动作时退出
      * @param fileName 正在执行同步的文件名
      */
@@ -77,7 +73,6 @@ class Push {
     }
 
     /**
-     * 
      * @description 重置定时器
      */
     resetCloseHandle() {
@@ -86,7 +81,6 @@ class Push {
     }
 
     /**
-     * 
      * @description 设定定时器，并循环同步文件
      */
     sync() {
@@ -99,7 +93,6 @@ class Push {
     }
 
     /**
-     * 
      * @description 单个文件的同步方法，采用异步task的形式按序执行
      * @param file 文件对象，包含本地路径和目的路径
      */
@@ -116,7 +109,6 @@ class Push {
     }
 
     /**
-     * 
      * @description 将同步文件信息的部分生成一个异步task参数对象
      * @param localPath 本地路径
      * @param remotePath 目的路径
@@ -139,7 +131,6 @@ class Push {
     }
 
     /**
-     * 
      * @description 将同步文件内容的部分生成一个异步task参数对象
      * @param localPath 本地路径
      * @returns 用于初始化异task的参数对象
@@ -171,7 +162,6 @@ class Push {
     }
 
     /**
-     * 
      * @description 响应来自服务端的数据，并根据数据来决定完成还是执行下一步
      * @param res 来自服务端的数据文本
      */
@@ -189,7 +179,6 @@ class Push {
     }
 
     /**
-     * 
      * @description 当一个文件同步完成时的回调，会向控制台打印同步信息
      * @param data 解析过后的来自服务端的数据
      */
@@ -208,7 +197,6 @@ class Push {
     }
 
     /**
-     * 
      * @description 序列化一个包含时分秒的字符串
      * @returns 序列化后的时间字符串
      */
@@ -218,7 +206,6 @@ class Push {
     }
 
     /**
-     * 
      * @description 当所有文件同步完成后的回调，用于关闭同步
      */
     allFileSyncFinish() {

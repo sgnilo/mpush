@@ -31,7 +31,6 @@ class Parser {
     }
 
     /**
-     * 
      * @param {'beforeParse'|'parseConfigFinish'|'parseContentFinish'|'roundParseFinish'} eventName 回调调用时机
      * @param {Function} callBack 回调函数
      */
@@ -41,7 +40,6 @@ class Parser {
     }
 
     /**
-     * 
      * @description 解析config格式的buffer
      * @param {Buffer} chunk 需要进行解析的buffer
      */
@@ -66,7 +64,6 @@ class Parser {
     }
 
     /**
-     * 
      * @description 解析content格式的buffer
      * @param {Buffer} chunk 需要进行解析的buffer
      */
@@ -86,7 +83,6 @@ class Parser {
     }
 
     /**
-     * 
      * @description 解析整个buffer
      * @param chunk 需要进行解析的buffer
      */

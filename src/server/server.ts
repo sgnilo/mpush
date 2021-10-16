@@ -8,7 +8,6 @@ import config from './config';
 import {ActiveItem, ParseCallBackParam, Socket} from '../types/index';
 
 /**
- *
  * @description 根据路径创建文件，若路径不存在则递归创建父级目录
  * @param {string} filePath 文件路径
  */
@@ -38,7 +37,6 @@ server.on('connection', (socket: Socket) => {
     const parser = new Parser();
 
     /**
-     * 
      * @description 当文件信息解析完成时调用，给请求方响应
      * @param {Object} activeFile 此时正处于处理中的文件信息
      */
@@ -51,7 +49,6 @@ server.on('connection', (socket: Socket) => {
     };
 
     /**
-     * 
      * @description 当文件内容解析处理完成时异步调用，给请求方响应
      * @param {object} activeFile 此时正处于处理中的文件信息
      */
@@ -66,7 +63,6 @@ server.on('connection', (socket: Socket) => {
     };
 
     /**
-     * 
      * @description 在文件内容解析处理完成时同步调用，将处理后的buffer写入文件中
      * @param {object} data 包含触发此回调的类型、此round的buffer、处理中的文件信息
      */
