@@ -27,7 +27,6 @@ const setDirWatcher = (dir: string, delay?: number) => {
     let changeFileList: string[] = [];
 
     fs.watch(dir, {recursive: true}, (e: string, fileName: string) => {
-        console.log(e, fileName);
         const fullName = fs.statSync(dir).isDirectory() ? path.resolve(dir, fileName) : dir;
         !changeFileList.includes(fullName) && changeFileList.push(fullName);
         clearTimeout(delayHandler);
