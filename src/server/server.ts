@@ -80,7 +80,6 @@ server.on('connection', (socket: Socket) => {
             parser.parse(res);
         } catch(err) {
             socket.write(JSON.stringify({error: err}));
-            throw err;
         }
     });
 });
