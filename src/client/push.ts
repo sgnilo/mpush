@@ -67,7 +67,7 @@ class Push {
         this.resetCloseHandle();
         this.colseHandle = setTimeout(() => {
             this.context.end();
-            throw new Error(`${fileName} 上传超时！`);
+            throw new Error(`${fileName || ''} 上传超时！`);
             
         }, timeout * 1000);
     }
@@ -122,9 +122,10 @@ class Push {
         return {
             id: taskId,
             execute(done: Done) {
+                _this.delay(localPath);
                 setTaskEvent(taskId, done);
                 const dataString = `$${JSON.stringify(config)}$`;
-                const buffer = Buffer.alloc(dataString.length ,dataString);
+                const buffer = Buffer.alloc(Buffer.byteLength(dataString, 'utf8'), dataString);
                 _this.context.write(buffer);
             }
         };
@@ -168,11 +169,10 @@ class Push {
     response(res: string) {
         const data = JSON.parse(res)
         const {fileName, error, taskId} = data as ResData;
-        this.delay(fileName);
         this.fileSyncFinish(data);
         this.allFileSyncFinish();
         if (error) {
-            throw error;
+            console.log(error);
         } else {
             event.fire(taskId, data);
         }

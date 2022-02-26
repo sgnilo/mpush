@@ -28,6 +28,8 @@ const setDirWatcher = (dir: string, delay?: number) => {
 
     fs.watch(dir, {recursive: true}, (e: string, fileName: string) => {
         const fullName = fs.statSync(dir).isDirectory() ? path.resolve(dir, fileName) : dir;
+        const newFile = fs.statSync(fullName, {throwIfNoEntry: false});
+        if (!newFile || newFile.isDirectory()) return false;
         !changeFileList.includes(fullName) && changeFileList.push(fullName);
         clearTimeout(delayHandler);
         delayHandler = setTimeout(() => {

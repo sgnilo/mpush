@@ -72,8 +72,10 @@ class Parser {
         this.remakeTaskId();
         let chunkText = chunk.toString('utf-8');
         if (this.contentFinishPattern.test(chunkText)) {
-            chunkText = chunkText.replace(this.contentFinishPattern, '');
-            buffer = Buffer.alloc(chunkText.length, chunkText);
+            const end = Math.max(buffer.length - 2, 0);
+            const newBuffer = Buffer.alloc(end);
+            const more = buffer.copy(newBuffer, 0, 0, end);
+            buffer = more ? newBuffer : null;
             this.isConfigPart = true;
             setTimeout(() => {
                 this.parseContentFinish && this.parseContentFinish(this.activeItem);
